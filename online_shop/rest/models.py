@@ -1,4 +1,5 @@
 from django.db import models
+from register import models as md1
 
 class Product(models.Model):
     types =( ('black','black'),
@@ -21,8 +22,9 @@ class Address(models.Model):
 
 class Order(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
-    end_date = models.DateTimeField()
+    end_date = models.DateTimeField(blank=True)
     status = models.BooleanField()
+    account = models.ForeignKey(md1.Account,on_delete=models.SET_NULL,null=True)
 
 class ProductToOorder(models.Model):
     order = models.ForeignKey('Order',on_delete=models.SET_NULL,null=True,related_name='to_order')

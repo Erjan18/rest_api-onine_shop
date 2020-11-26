@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest',
     'register',
     'rest_framework',
+    'rest_framework.authtoken',
     'django_filters',
 ]
 
@@ -104,6 +105,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTH_USER_MODEL = 'register.Account'
+
 
 
 # Internationalization
