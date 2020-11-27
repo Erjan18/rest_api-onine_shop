@@ -28,7 +28,7 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ['id','to_order','start_date','end_date','status','endpoint','account']
 
     def create(self,validated_data):
-        endpoints = validated_data.pop['endpoint']
+        endpoints = validated_data.pop('endpoint')
         order = Order.objects.create(**validated_data)
         for endpoint in endpoints:
             Address.objects.create(order=order,**endpoint)
