@@ -3,6 +3,8 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from django.urls import reverse
 from .models import *
+from rest_framework.test import APIRequestFactory
+from rest_framework.test import force_authenticate
 
 class AccountTestCase(APITestCase):
 
@@ -102,21 +104,13 @@ class AccountTestCase(APITestCase):
 class loginTestCase(APITestCase):
     def setUp(self):
         self.login_url = reverse('login')
+        Account.objects.create(
+                               username='Erjan',
+                               password='qwertij')
+        self.factory = APIRequestFactory()
+        self.request = self.factory.get(self.login_url)
 
     def test_sign_in(self):
-        data = {
-            "username":"Erjanqwe",
-            "password":"qwertij"
-        }
-        self.response = self.client.post(self.login_url, data)
-        self.assertEqual(self.response.status_code, status.HTTP_200_OK)
-
-    def test_sign_in_empty(self):
-        data = {
-            "username": "Erjanqwe",
-            "password": "qwertij"
-        }
-        self.response = self.client.post(self.login_url, data)
-        self.assertEqual(self.response.status_code, status.HTTP_200_OK)
-        print(self.response.data)
-
+      user = Account.objects.get(username='Erjan')
+      force_authenticate(request=self.request,user=user)
+      print(self.request.body)
